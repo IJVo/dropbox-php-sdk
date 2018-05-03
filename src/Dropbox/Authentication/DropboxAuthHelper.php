@@ -193,14 +193,15 @@ class DropboxAuthHelper
 
     /**
      * Get Access Token
+		 * Edited: IJVo
      *
      * @param  string $code        Authorization Code
      * @param  string $state       CSRF & URL State
      * @param  string $redirectUri Redirect URI used while getAuthUrl
      *
-     * @return \Kunnu\Dropbox\Models\AccessToken
+     * @return \Kunnu\Dropbox\Models\AccessToken|array
      */
-    public function getAccessToken($code, $state = null, $redirectUri = null)
+    public function getAccessToken($code, $state = null, $redirectUri = null, $returnArray = false)
     {
         // No state provided
         // Should probably be
@@ -221,9 +222,13 @@ class DropboxAuthHelper
 
         //Fetch Access Token
         $accessToken = $this->getOAuth2Client()->getAccessToken($code, $redirectUri);
-
-        //Make and return the model
-        return new AccessToken($accessToken);
+				
+				if ($returnArray == true) {
+					return $accessToken; // Edited: IJVo
+				} else {
+	        //Make and return the model
+		      return new AccessToken($accessToken);
+				}
     }
 
     /**

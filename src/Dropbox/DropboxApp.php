@@ -33,12 +33,13 @@ class DropboxApp
 
 	/**
 	 * Create a new Dropbox instance
+	 * Edited: IJVo
 	 *
 	 * @param string $clientId     Application Client ID
 	 * @param string $clientSecret Application Client Secret
 	 * @param string $accessToken  Access Token
 	 */
-	public function __construct($clientId, $clientSecret, $accessToken = null)
+	public function __construct($clientId = null, $clientSecret = null, $accessToken = null)
 	{
 		$this->clientId = $clientId;
 		$this->clientSecret = $clientSecret;

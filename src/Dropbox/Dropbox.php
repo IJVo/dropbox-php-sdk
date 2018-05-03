@@ -94,11 +94,12 @@ class Dropbox
 
     /**
      * Create a new Dropbox instance
+		 * Edited: IJVo
      *
      * @param \Kunnu\Dropbox\DropboxApp
      * @param array $config Configuration Array
      */
-    public function __construct(DropboxApp $app, array $config = [])
+    public function __construct(DropboxApp $app = null, array $config = [])
     {
         //Configuration
         $config = array_merge([
