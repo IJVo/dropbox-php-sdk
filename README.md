@@ -1,12 +1,12 @@
-Dropbox SDK v2 for PHP
-======================================================
-[![Latest Stable Version](https://poser.pugx.org/kunalvarma05/dropbox-php-sdk/v/stable?format=flat-square)](https://packagist.org/packages/kunalvarma05/dropbox-php-sdk)
-[![Build Status](https://img.shields.io/travis/kunalvarma05/dropbox-php-sdk.svg?style=flat-square)](https://travis-ci.org/kunalvarma05/dropbox-php-sdk)
-[![Quality Score](https://img.shields.io/scrutinizer/g/kunalvarma05/dropbox-php-sdk.svg?style=flat-square)](https://scrutinizer-ci.com/g/kunalvarma05/dropbox-php-sdk)
-[![Total Downloads](https://img.shields.io/packagist/dt/kunalvarma05/dropbox-php-sdk.svg?style=flat-square)](https://packagist.org/packages/kunalvarma05/dropbox-php-sdk)
-[![StyleCI](https://styleci.io/repos/61913555/shield?branch=master)](https://styleci.io/repos/61913555)
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/kunalvarma05/dropbox-php-sdk)
+Dropbox SDK v2 for PHP -[forked from kunalvarma05/dropbox-php-sdk] 
+==================================================================
 
+[![Latest Stable Version](https://poser.pugx.org/ijvo/dropbox-php-sdk/v/stable?format=flat-square)](https://packagist.org/packages/ijvo/dropbox-php-sdk)
+[![Build Status](https://img.shields.io/travis/ijvo/dropbox-php-sdk.svg?style=flat-square)](https://travis-ci.org/ijvo/dropbox-php-sdk)
+[![Total Downloads](https://img.shields.io/packagist/dt/ijvo/dropbox-php-sdk.svg?style=flat-square)](https://packagist.org/packages/ijvo/dropbox-php-sdk)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/ijvo/dropbox-php-sdk)
+
+Easy-to-Use PHP SDK to work with the Dropbox V2 API.
 
 An unofficial PHP SDK to work with the [Dropbox API v2](https://www.dropbox.com/developers/documentation/http/documentation).
 
