@@ -1,12 +1,14 @@
 Dropbox SDK v2 for PHP -[forked from kunalvarma05/dropbox-php-sdk] 
 ==================================================================
 
+Easy-to-Use PHP SDK to work with the Dropbox V2 API.
+
+
 [![Latest Stable Version](https://poser.pugx.org/ijvo/dropbox-php-sdk/v/stable?format=flat-square)](https://packagist.org/packages/ijvo/dropbox-php-sdk)
 [![Build Status](https://img.shields.io/travis/ijvo/dropbox-php-sdk.svg?style=flat-square)](https://travis-ci.org/ijvo/dropbox-php-sdk)
 [![Total Downloads](https://img.shields.io/packagist/dt/ijvo/dropbox-php-sdk.svg?style=flat-square)](https://packagist.org/packages/ijvo/dropbox-php-sdk)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/ijvo/dropbox-php-sdk)
 
-Easy-to-Use PHP SDK to work with the Dropbox V2 API.
 
 An unofficial PHP SDK to work with the [Dropbox API v2](https://www.dropbox.com/developers/documentation/http/documentation).
 
