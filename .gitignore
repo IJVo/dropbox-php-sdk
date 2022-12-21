@@ -4,3 +4,6 @@ index.php
 composer.lock
 /.idea
 .php_cs.cache
+
+.ZZZ_*
+.ZAL_*
