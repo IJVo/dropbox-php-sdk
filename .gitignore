@@ -4,6 +4,10 @@ index.php
 composer.lock
 /.idea
 .php_cs.cache
+.phpunit.result.cache
+
+/build-report/
+/coverage-html/
 
 .ZZZ_*
 .ZAL_*

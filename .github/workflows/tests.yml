@@ -1,0 +1,59 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  tests_01:
+    name: PHP ${{ matrix.php }} tests 
+    runs-on: ubuntu-latest
+
+    env:
+      XDEBUG_MODE: "coverage"
+
+    strategy:
+      matrix:
+        php: ['8.1']
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+
+      - run: composer selfupdate --no-progress
+      - run: composer update --no-progress --no-interaction --prefer-source -W
+      - run: mkdir tests/_temp
+      - run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: output
+          path: tests/**/output
+
+  tests_02:
+    name: PHP ${{ matrix.php }} tests 
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: ['8.2','8.3']
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - run: composer selfupdate --no-progress
+      - run: composer update --no-progress --no-interaction --prefer-source -W
+      - run: mkdir tests/_temp
+      - run: ./vendor/bin/phpunit
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: output
+          path: tests/**/output
+

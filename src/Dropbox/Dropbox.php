@@ -99,7 +99,7 @@ class Dropbox
      * @param \Kunnu\Dropbox\DropboxApp
      * @param array $config Configuration Array
      */
-    public function __construct(DropboxApp $app = null, array $config = [])
+    public function __construct(?DropboxApp $app = null, array $config = [])
     {
         //Configuration
         $config = array_merge([
@@ -237,7 +237,7 @@ class Dropbox
      *
      * @return \Kunnu\Dropbox\DropboxResponse
      */
-    public function postToAPI($endpoint, array $params = [], $accessToken = null)
+    public function postToAPI(string $endpoint, array $params = [], ?string $accessToken = null)
     {
         return $this->sendRequest("POST", $endpoint, 'api', $params, $accessToken);
     }
@@ -256,7 +256,13 @@ class Dropbox
      *
      * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
      */
-    public function sendRequest($method, $endpoint, $endpointType = 'api', array $params = [], $accessToken = null, DropboxFile $responseFile = null)
+    public function sendRequest(
+			string $method, 
+			string $endpoint, 
+			string $endpointType = 'api', 
+			array $params = [], 
+			?string $accessToken = null, 
+			?DropboxFile $responseFile = null)
     {
         //Access Token
         $accessToken = $this->getAccessToken() ? $this->getAccessToken() : $accessToken;
@@ -328,7 +334,7 @@ class Dropbox
      *
      * @return \Kunnu\Dropbox\Models\MetadataCollection
      */
-    public function listFolder($path = null, array $params = [])
+    public function listFolder(?string $path = null, array $params = [])
     {
         //Specify the root folder as an
         //empty string rather than as "/"
@@ -778,7 +784,7 @@ class Dropbox
      *
      * @return \Kunnu\Dropbox\Models\FileMetadata
      */
-    public function upload($dropboxFile, $path, array $params = [])
+    public function upload(string|DropboxFile $dropboxFile, string $path, array $params = [])
     {
         //Make Dropbox File
         $dropboxFile = $this->makeDropboxFile($dropboxFile);
@@ -803,7 +809,7 @@ class Dropbox
      *
      * @return \Kunnu\Dropbox\DropboxFile
      */
-    public function makeDropboxFile($dropboxFile, $maxLength = null, $offset = null, $mode = DropboxFile::MODE_READ)
+    public function makeDropboxFile(string|DropboxFile $dropboxFile, ?int $maxLength = null, ?int $offset = null, ?string $mode = DropboxFile::MODE_READ)
     {
         //Uploading file by file path
         if (!$dropboxFile instanceof DropboxFile) {
@@ -842,7 +848,7 @@ class Dropbox
      *
      * @return \Kunnu\Dropbox\Models\FileMetadata
      */
-    public function uploadChunked($dropboxFile, $path, $fileSize = null, $chunkSize = null, array $params = array())
+    public function uploadChunked(string|DropboxFile $dropboxFile, string $path, ?int $fileSize = null, ?int $chunkSize = null, array $params = array())
     {
         //Make Dropbox File
         $dropboxFile = $this->makeDropboxFile($dropboxFile);
@@ -906,7 +912,7 @@ class Dropbox
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-upload_session-start
      *
      */
-    public function startUploadSession($dropboxFile, $chunkSize = -1, $close = false)
+    public function startUploadSession(string|DropboxFile $dropboxFile, int $chunkSize = -1, bool $close = false)
     {
         //Make Dropbox File with the given chunk size
         $dropboxFile = $this->makeDropboxFile($dropboxFile, $chunkSize);
@@ -940,7 +946,7 @@ class Dropbox
      *
      * @return \Kunnu\Dropbox\DropboxResponse
      */
-    public function postToContent($endpoint, array $params = [], $accessToken = null, DropboxFile $responseFile = null)
+    public function postToContent(string $endpoint, array $params = [], ?string $accessToken = null, ?DropboxFile $responseFile = null)
     {
         return $this->sendRequest("POST", $endpoint, 'content', $params, $accessToken, $responseFile);
     }
@@ -961,7 +967,7 @@ class Dropbox
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-upload_session-append_v2
      *
      */
-    public function appendUploadSession($dropboxFile, $sessionId, $offset, $chunkSize, $close = false)
+    public function appendUploadSession(string|DropboxFile $dropboxFile, string $sessionId, int $offset, int $chunkSize, bool $close = false)
     {
         //Make Dropbox File
         $dropboxFile = $this->makeDropboxFile($dropboxFile, $chunkSize, $offset);
@@ -1011,7 +1017,7 @@ class Dropbox
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-upload_session-finish
      *
      */
-    public function finishUploadSession($dropboxFile, $sessionId, $offset, $remaining, $path, array $params = [])
+    public function finishUploadSession(string|DropboxFile $dropboxFile, string $sessionId, int $offset, int $remaining, string $path, array $params = [])
     {
         //Make Dropbox File
         $dropboxFile = $this->makeDropboxFile($dropboxFile, $remaining, $offset);
@@ -1053,7 +1059,7 @@ class Dropbox
      *
      * @return \Kunnu\Dropbox\Models\FileMetadata
      */
-    public function simpleUpload($dropboxFile, $path, array $params = [])
+    public function simpleUpload(string|DropboxFile $dropboxFile, string $path, array $params = [])
     {
         //Make Dropbox File
         $dropboxFile = $this->makeDropboxFile($dropboxFile);
@@ -1084,7 +1090,7 @@ class Dropbox
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-get_thumbnail
      *
      */
-    public function getThumbnail($path, $size = 'small', $format = 'jpeg')
+    public function getThumbnail(string $path, string $size = 'small', string $format = 'jpeg')
     {
         //Path cannot be null
         if (is_null($path)) {
@@ -1119,7 +1125,7 @@ class Dropbox
      *
      * @return string
      */
-    protected function getThumbnailSize($size)
+    protected function getThumbnailSize(string $size)
     {
         $thumbnailSizes = [
             'thumb' => 'w32h32',
@@ -1181,7 +1187,7 @@ class Dropbox
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-download
      *
      */
-    public function download($path, $dropboxFile = null)
+    public function download(string $path, null|string|DropboxFile $dropboxFile = null)
     {
         //Path cannot be null
         if (is_null($path)) {
@@ -1230,7 +1236,7 @@ class Dropbox
      *
      * @return \Kunnu\Dropbox\Models\Account
      */
-    public function getAccount($account_id)
+    public function getAccount(string $account_id)
     {
         //Get account
         $response = $this->postToAPI('/users/get_account', ['account_id' => $account_id]);

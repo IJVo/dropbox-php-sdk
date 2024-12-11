@@ -52,8 +52,8 @@ class DropboxAuthHelper
      */
     public function __construct(
         OAuth2Client $oAuth2Client,
-        RandomStringGeneratorInterface $randomStringGenerator = null,
-        PersistentDataStoreInterface $persistentDataStore = null
+        ?RandomStringGeneratorInterface $randomStringGenerator = null,
+        ?PersistentDataStoreInterface $persistentDataStore = null
         ) {
         $this->oAuth2Client = $oAuth2Client;
         $this->randomStringGenerator = $randomStringGenerator;
@@ -105,16 +105,16 @@ class DropboxAuthHelper
     /**
      * Get Authorization URL
      *
-     * @param  string $redirectUri Callback URL to redirect to after authorization
-     * @param  array  $params      Additional Params
-     * @param  string $urlState  Additional User Provided State Data
-     * @param string $tokenAccessType Either `offline` or `online` or null
+     * @param  string $redirectUri     Callback URL to redirect to after authorization
+     * @param  array  $params          Additional Params
+     * @param  string $urlState        Additional User Provided State Data
+     * @param  string $tokenAccessType Either `offline` or `online` or null
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#oauth2-authorize
      *
      * @return string
      */
-    public function getAuthUrl($redirectUri = null, array $params = [], $urlState = null, $tokenAccessType = null)
+    public function getAuthUrl( ?string $redirectUri = null, array $params = [], ?string $urlState = null, ?string $tokenAccessType = null)
     {
         // If no redirect URI
         // is provided, the
@@ -199,10 +199,11 @@ class DropboxAuthHelper
      * @param  string $code        Authorization Code
      * @param  string $state       CSRF & URL State
      * @param  string $redirectUri Redirect URI used while getAuthUrl
+		 * @param  bool   $returnArray 
      *
      * @return \Kunnu\Dropbox\Models\AccessToken|array
      */
-    public function getAccessToken($code, $state = null, $redirectUri = null, $returnArray = false)
+    public function getAccessToken(string $code, ?string $state = null, ?string $redirectUri = null, bool $returnArray = false)
     {
         // No state provided
         // Should probably be

@@ -51,7 +51,7 @@ class OAuth2Client
      * @param \Kunnu\Dropbox\DropboxClient $client
      * @param \Kunnu\Dropbox\Security\RandomStringGeneratorInterface $randStrGenerator
      */
-    public function __construct(DropboxApp $app, DropboxClient $client, RandomStringGeneratorInterface $randStrGenerator = null)
+    public function __construct(DropboxApp $app, DropboxClient $client, ?RandomStringGeneratorInterface $randStrGenerator = null)
     {
         $this->app = $app;
         $this->client = $client;
@@ -107,7 +107,7 @@ class OAuth2Client
      *
      * @return string
      */
-    public function getAuthorizationUrl($redirectUri = null, $state = null, array $params = [], $tokenAccessType = null)
+    public function getAuthorizationUrl(?string $redirectUri = null, ?string $state = null, array $params = [], ?string $tokenAccessType = null)
     {
         //Request Parameters
         $params = array_merge([
@@ -133,7 +133,7 @@ class OAuth2Client
      *
      * @return array
      */
-    public function getAccessToken($code, $redirectUri = null, $grant_type = 'authorization_code')
+    public function getAccessToken(string $code, ?string $redirectUri = null, string $grant_type = 'authorization_code')
     {
         //Request Params
         $params = [

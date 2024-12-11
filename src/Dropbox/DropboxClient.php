@@ -143,7 +143,7 @@ class DropboxClient
      *
      * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
      */
-    public function sendRequest(DropboxRequest $request, DropboxResponse $response = null)
+    public function sendRequest(DropboxRequest $request, ?DropboxResponse $response = null)
     {
         //Method
         $method = $request->getMethod();

@@ -10,102 +10,106 @@ use GuzzleHttp\Exception\RequestException;
 use Kunnu\Dropbox\Http\DropboxRawResponse;
 use GuzzleHttp\Exception\BadResponseException;
 use Kunnu\Dropbox\Exceptions\DropboxClientException;
+use resource;
 
 /**
  * DropboxGuzzleHttpClient.
  */
 class DropboxGuzzleHttpClient implements DropboxHttpClientInterface
 {
-    /**
-     * GuzzleHttp client.
-     *
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
+	/**
+	 * GuzzleHttp client.
+	 *
+	 * @var \GuzzleHttp\Client
+	 */
+	protected $client;
 
-    /**
-     * Create a new DropboxGuzzleHttpClient instance.
-     *
-     * @param Client $client GuzzleHttp Client
-     */
-    public function __construct(Client $client = null)
-    {
-        //Set the client
-        $this->client = $client ?: new Client();
-    }
 
-    /**
-     * Send request to the server and fetch the raw response.
-     *
-     * @param  string $url     URL/Endpoint to send the request to
-     * @param  string $method  Request Method
-     * @param  string|resource|StreamInterface $body Request Body
-     * @param  array  $headers Request Headers
-     * @param  array  $options Additional Options
-     *
-     * @return \Kunnu\Dropbox\Http\DropboxRawResponse Raw response from the server
-     *
-     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
-     */
-    public function send($url, $method, $body, $headers = [], $options = [])
-    {
-        //Create a new Request Object
-        $request = new Request($method, $url, $headers, $body);
+	/**
+	 * Create a new DropboxGuzzleHttpClient instance.
+	 *
+	 * @param Client $client GuzzleHttp Client
+	 */
+	public function __construct(?Client $client = null)
+	{
+		//Set the client
+		$this->client = $client ?: new Client();
+	}
 
-        try {
-            //Send the Request
-            $rawResponse = $this->client->send($request, $options);
-        } catch (BadResponseException $e) {
-            throw new DropboxClientException($e->getResponse()->getBody(), $e->getCode(), $e);
-        } catch (RequestException $e) {
-            $rawResponse = $e->getResponse();
 
-            if (! $rawResponse instanceof ResponseInterface) {
-                throw new DropboxClientException($e->getMessage(), $e->getCode());
-            }
-        }
+	/**
+	 * Send request to the server and fetch the raw response.
+	 *
+	 * @param  string $url     URL/Endpoint to send the request to
+	 * @param  string $method  Request Method
+	 * @param  string|resource|StreamInterface $body Request Body
+	 * @param  array  $headers Request Headers
+	 * @param  array  $options Additional Options
+	 *
+	 * @return \Kunnu\Dropbox\Http\DropboxRawResponse Raw response from the server
+	 *
+	 * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
+	 */
+	public function send(string $url, string $method, string|resource|StreamInterface $body, array $headers = [], array $options = [])
+	{
+		//Create a new Request Object
+		$request = new Request($method, $url, $headers, $body);
 
-        //Something went wrong
-        if ($rawResponse->getStatusCode() >= 400) {
-            throw new DropboxClientException($rawResponse->getBody());
-        }
+		try {
+			//Send the Request
+			$rawResponse = $this->client->send($request, $options);
+		} catch (BadResponseException $e) {
+			throw new DropboxClientException($e->getResponse()->getBody(), $e->getCode(), $e);
+		} catch (RequestException $e) {
+			$rawResponse = $e->getResponse();
 
-        if (array_key_exists('sink', $options)) {
-            //Response Body is saved to a file
-            $body = '';
-        } else {
-            //Get the Response Body
-            $body = $this->getResponseBody($rawResponse);
-        }
+			if (!$rawResponse instanceof ResponseInterface) {
+				throw new DropboxClientException($e->getMessage(), $e->getCode());
+			}
+		}
 
-        $rawHeaders = $rawResponse->getHeaders();
-        $httpStatusCode = $rawResponse->getStatusCode();
+		//Something went wrong
+		if ($rawResponse->getStatusCode() >= 400) {
+			throw new DropboxClientException($rawResponse->getBody());
+		}
 
-        //Create and return a DropboxRawResponse object
-        return new DropboxRawResponse($rawHeaders, $body, $httpStatusCode);
-    }
+		if (array_key_exists('sink', $options)) {
+			//Response Body is saved to a file
+			$body = '';
+		} else {
+			//Get the Response Body
+			$body = $this->getResponseBody($rawResponse);
+		}
 
-    /**
-     * Get the Response Body.
-     *
-     * @param string|\Psr\Http\Message\ResponseInterface $response Response object
-     *
-     * @return string
-     */
-    protected function getResponseBody($response)
-    {
-        //Response must be string
-        $body = $response;
+		$rawHeaders = $rawResponse->getHeaders();
+		$httpStatusCode = $rawResponse->getStatusCode();
 
-        if ($response instanceof ResponseInterface) {
-            //Fetch the body
-            $body = $response->getBody();
-        }
+		//Create and return a DropboxRawResponse object
+		return new DropboxRawResponse($rawHeaders, $body, $httpStatusCode);
+	}
 
-        if ($body instanceof StreamInterface) {
-            $body = $body->getContents();
-        }
 
-        return (string) $body;
-    }
+	/**
+	 * Get the Response Body.
+	 *
+	 * @param string|\Psr\Http\Message\ResponseInterface $response Response object
+	 *
+	 * @return string
+	 */
+	protected function getResponseBody(string|\Psr\Http\Message\ResponseInterface $response)
+	{
+		//Response must be string
+		$body = $response;
+
+		if ($response instanceof ResponseInterface) {
+			//Fetch the body
+			$body = $response->getBody();
+		}
+
+		if ($body instanceof StreamInterface) {
+			$body = $body->getContents();
+		}
+
+		return (string) $body;
+	}
 }

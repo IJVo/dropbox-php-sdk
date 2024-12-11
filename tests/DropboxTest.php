@@ -3,7 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 class DropboxTest extends TestCase
 {
-    public function testDemo()
+    public function testDemo(): void
     {
         $this->assertEquals(0, 5 - 5);
     }
